@@ -1,0 +1,1142 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bungee&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("/fonts/Quicksand.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Bungee";
+  src: url("/fonts/Bungee.ttf") format("truetype");
+}
+
+@theme {
+  --color-yellow: #ffff00;
+  --color-sulphur: #f5ecc2;
+  --color-dark: #111314;
+  --color-red: #ff073a;
+  --font-quick: "Quicksand", sans-serif;
+  --font-bungee: "Bungee", sans-serif;
+  --font-oswald: "Oswald", sans-serif;
+  --font-serif: "DM Serif Text", serif;
+}
+html,
+body {
+  width: 100%;
+  background-color: #f5ecc2;
+  color: white;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
+
+@utility col-center {
+  @apply flex flex-col justify-center items-center;
+}
+
+@utility abs-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+@utility text-gradient {
+  background: linear-gradient(to bottom, #ffffff, #898989);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility radial-gradient {
+  background: radial-gradient(
+    ellipse farthest-corner at center,
+    #00845b 0%,
+    #222 60%,
+    #000 100%
+  );
+}
+
+@utility masked-img {
+  mask-image: url("/images/mask-img.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 50%;
+}
+@utility globe-img {
+  background: url("./images/globe.png") no-repeat center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+@layer components {
+  main {
+    @apply w-full overflow-x-hidden;
+  }
+  .header {
+    @apply z-50 w-full h-[70px] fixed backdrop-blur-sm bg-white/20;
+  }
+  .header-wrapper {
+    @apply flex justify-between items-center px-6 py-4 text-black;
+  }
+  .orange-btn {
+    @apply h-12 cursor-pointer bg-dark hover:bg-orange-500 text-white font-medium text-base rounded-lg shadow-lg disabled:opacity-50;
+  }
+
+  /* =====================================================================
+     HERO
+     ===================================================================== */
+  #hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #hero article {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+
+  #hero .outer,
+  #hero .inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #hero .bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 8vw;
+  }
+
+  /* odd slides: visual left, text right */
+  #hero article:nth-child(odd) .bg {
+    flex-direction: row-reverse;
+    background: var(--color-sulphur);
+    color: var(--color-dark);
+  }
+
+  /* even slides: text left, visual right */
+  #hero article:nth-child(even) .bg {
+    flex-direction: row;
+    background: var(--color-dark);
+    color: var(--color-sulphur);
+  }
+  /* slide 2: globe image background with a dark overlay so the text stays readable */
+  #hero article:nth-child(2) .bg {
+    background: var(--color-dark) url("./images/globe.jpg") center / cover
+      no-repeat;
+  }
+
+  #hero .slide-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  #hero h1,
+  #hero h2 {
+    font-family: "Oswald", sans-serif;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 1;
+  }
+
+  #hero p {
+    margin-top: 1rem;
+    max-width: 30rem;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  #hero .clip-text {
+    overflow: hidden;
+  }
+
+  /* the box every visual (ball or image) lives in */
+  #hero .slide-visual {
+    position: relative;
+    flex: 1;
+    max-width: 45%;
+    height: min(600px, 70vh);
+  }
+
+  #hero .slide-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* ---------- call-to-action buttons (first slide) ---------- */
+  #hero .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  #hero .hero-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.75rem;
+    border-radius: 9999px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition:
+      color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.2s ease;
+  }
+
+  /* Download: dark, turns to brushed copper on hover */
+  #hero .hero-btn-download {
+    background: var(--color-dark);
+    color: var(--color-sulphur);
+    border: 2px solid var(--color-dark);
+  }
+  #hero .hero-btn-download::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      115deg,
+      #7a3b12 0%,
+      #b87333 18%,
+      #f4c9a0 32%,
+      #b87333 46%,
+      #8a4a1c 62%,
+      #e3a373 78%,
+      #b87333 100%
+    );
+    background-size: 250% 100%;
+    background-position: 0% 50%;
+    opacity: 0;
+    transition:
+      opacity 0.35s ease,
+      background-position 0.9s ease;
+  }
+  #hero .hero-btn-download:hover {
+    color: var(--color-dark);
+    border-color: #b87333;
+    box-shadow: 0 6px 22px rgba(184, 115, 51, 0.45);
+    transform: translateY(-2px);
+  }
+  #hero .hero-btn-download:hover::before {
+    opacity: 1;
+    background-position: 100% 50%;
+  }
+
+  /* the sweeping highlight (created on mouseenter) */
+  #hero .hero-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    transform: skewX(-20deg);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 240, 222, 0.55),
+      transparent
+    );
+  }
+
+  /* About: just a dark rounded outline */
+  #hero .hero-btn-about {
+    background: transparent;
+    color: var(--color-dark);
+    border: 2px solid var(--color-dark);
+  }
+
+  #hero .hero-btn:focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 3px;
+  }
+
+  /* phones: visual on top, text below */
+  @media (max-width: 640px) {
+    #hero article:nth-child(odd) .bg,
+    #hero article:nth-child(even) .bg {
+      flex-direction: column-reverse;
+      justify-content: center;
+      text-align: center;
+    }
+    #hero .slide-text {
+      text-align: center;
+      flex: 0;
+    }
+    #hero .hero-cta {
+      justify-content: center;
+    }
+    #hero .slide-visual {
+      max-width: 80%;
+      width: 80%;
+      flex: 0 0 auto;
+      height: 35vh;
+    }
+  }
+
+  #goal {
+    background-color: var(--color-sulphur);
+    @apply w-full;
+    overflow-x: clip;
+
+    /* ---------- pinned stage ---------- */
+    .goal-pin {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* the strip that slides sideways */
+    .goal-track {
+      display: flex;
+      width: max-content;
+      height: 100%;
+    }
+
+    /* ---------- panels: each sets --panel-bg / --panel-ink / --panel-tone ---------- */
+    .panel {
+      position: relative;
+      flex: 0 0 100vw;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 1.5rem;
+      overflow: hidden;
+      background: var(--panel-bg);
+      color: var(--panel-ink);
+    }
+
+    /* the title, huge and horizontal, behind everything */
+    .panel-title {
+      @apply font-bungee uppercase;
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      translate: -50% -50%;
+      margin: 0;
+      z-index: 0;
+      white-space: nowrap;
+      line-height: 1;
+      font-size: clamp(5rem, 12vw, 20rem);
+      color: var(--panel-tone);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* art: no frame, no fill, no hover. Just the drawing on the panel */
+    .thumb {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      width: min(68vw, 40vh);
+      aspect-ratio: 1;
+      overflow: visible;
+
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        /* let the art move past its viewBox without being clipped */
+        overflow: visible;
+      }
+    }
+
+    .body {
+      position: relative;
+      z-index: 2;
+      max-width: 28rem;
+      text-align: center;
+      @apply font-quick font-medium text-3xl md:text-lg;
+    }
+
+    /* ---------- md+: art and text side by side, alternating ---------- */
+    @media (min-width: 768px) {
+      .panel {
+        flex-direction: row;
+        gap: 7vw;
+        padding: 3rem 8vw;
+
+        .thumb {
+          width: min(40vw, 62vh);
+        }
+        .body {
+          text-align: left;
+        }
+
+        &:nth-of-type(even) {
+          flex-direction: row-reverse;
+
+          .body {
+            text-align: right;
+          }
+        }
+      }
+      /* ---------- Team links ---------- */
+      .team-text .team-link {
+        position: relative;
+        color: inherit;
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.18em;
+        cursor: pointer;
+      }
+
+      /* YStudios in purple */
+      .team-text .ystudios {
+        @apply text-black font-bungee;
+      }
+
+      /* Jude + Ryan: role tooltip on hover/focus */
+      .team-text .person::after {
+        content: attr(data-role);
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.6rem);
+        transform: translate(-50%, 6px);
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        background: #111314;
+        color: #f5ecc2;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1;
+        white-space: nowrap;
+        text-decoration: none;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        z-index: 5;
+      }
+      .team-text .person:hover::after,
+      .team-text .person:focus-visible::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      /* Jude is blurry in pictures; sharpens on hover */
+      .team-text .blurry {
+        display: inline-block;
+        font-style: normal;
+        filter: blur(2px);
+        transition: filter 0.3s ease;
+      }
+      .team-text:hover .blurry {
+        filter: blur(0);
+      }
+    }
+
+    /* ---------- reduced motion: stack vertically, no pin ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      .goal-pin {
+        height: auto;
+        overflow: visible;
+      }
+      .goal-track {
+        flex-direction: column;
+        width: 100%;
+      }
+      .panel {
+        flex: none;
+        width: 100%;
+        min-height: 100vh;
+      }
+    }
+  }
+
+  /* =====================================================================
+     TECH
+     ===================================================================== */
+  #tech {
+    @apply relative w-full overflow-hidden bg-dark;
+    /* lets the grid size its square cells from the section width (cqw) */
+    container-type: inline-size;
+
+    .tech-list {
+      --cell: calc(100cqw / var(--cols));
+      @apply relative;
+      display: grid;
+      grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--rows), var(--cell));
+    }
+
+    /* the full-section background grid, one element per cell */
+    .tech-cells {
+      @apply absolute inset-0 pointer-events-none;
+      display: grid;
+      grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--rows), var(--cell));
+    }
+    .tech-cell {
+      border-right: 1px solid
+        color-mix(in srgb, var(--color-dark) 16%, transparent);
+      border-bottom: 1px solid
+        color-mix(in srgb, var(--color-dark) 16%, transparent);
+    }
+
+    .tech-heading {
+      @apply z-10 self-center justify-self-center font-quick font-bold uppercase tracking-widest text-2xl text-sulphur md:text-sm;
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    /* ---- image cell (placement comes from LAYOUTS in Tech.jsx) ---- */
+    .tech-pin {
+      @apply relative z-10 m-0 overflow-hidden  bg-dark;
+    }
+    .tech-tag {
+      @apply absolute top-1 right-2 z-10 font-bungee text-sm text-red lg:text-2xl;
+    }
+    .tech-img {
+      @apply size-full object-contain p-2 lg:p-4;
+    }
+
+    /* ---- text cell ---- */
+    .tech-note {
+      @apply relative z-10 flex flex-col justify-center gap-2 overflow-hidden border border-sulphur/30  p-3 text-dark lg:gap-4 lg:p-8;
+
+      h4 {
+        @apply font-quick font-bold text-red text-lg leading-tight break-words;
+      }
+      p {
+        @apply font-quick text-sm leading-snug;
+      }
+
+      /* on lg the type scales with the cell size, so it grows with the grid */
+      @media (width >= 64rem) {
+        h4 {
+          font-size: calc(var(--cell) * 0.42);
+        }
+        p {
+          font-size: calc(var(--cell) * 0.27);
+        }
+      }
+    }
+  }
+
+  /* =====================================================================
+     ABOUT
+     ===================================================================== */
+  #about {
+    /* starts sulphur; GSAP flips it to dark on scroll */
+    background-color: var(--color-dark);
+    color: var(--color-sulph);
+    @apply w-full min-h-screen px-5 py-24;
+
+    .about-inner {
+      @apply container mx-auto;
+    }
+
+    h3 {
+      @apply font-quick font-bold uppercase tracking-widest text-xs mb-10;
+    }
+    .about-body {
+      @apply flex flex-col md:flex-row items-center gap-10;
+    }
+    .about-wheel {
+      @apply h-[60vh] w-full md:w-1/2;
+    }
+    .about-text {
+      @apply font-quick text-2xl md:text-4xl max-w-md;
+    }
+  }
+
+  #beta {
+    /* ---------- step layout ---------- */
+    .beta-step {
+      @apply flex flex-col gap-6 py-2;
+    }
+
+    /* ---------- progress slider ---------- */
+    .beta-progress {
+      @apply mb-10 flex flex-col gap-3;
+    }
+    .beta-progress-head {
+      @apply flex items-baseline justify-between font-mono text-xs font-bold uppercase tracking-widest text-dark;
+    }
+    .beta-progress-count {
+      @apply text-2xl tracking-tight;
+    }
+    .beta-progress-count > span {
+      opacity: 0.35;
+    }
+    .beta-progress-track {
+      height: 1rem;
+      border: 2px solid var(--color-dark);
+      box-shadow: 4px 4px 0 var(--color-dark);
+      background: transparent;
+    }
+    .beta-progress-fill {
+      position: relative;
+      height: 100%;
+      background: var(--color-dark);
+      transition: width 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+    /* red leading edge = the slider thumb */
+    .beta-progress-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 0.75rem;
+      background: var(--color-red);
+    }
+
+    /* ---------- footer + buttons ---------- */
+    .beta-footer {
+      @apply mt-4 flex items-center justify-between gap-4 pt-6;
+      border-top: 2px solid var(--color-dark);
+    }
+
+    .beta-btn {
+      @apply h-12 cursor-pointer px-8 font-quick text-sm font-bold uppercase tracking-widest;
+      border: 2px solid var(--color-dark);
+      border-radius: 0;
+      background: transparent;
+      color: var(--color-dark);
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background-color 0.12s ease,
+        color 0.12s ease;
+    }
+    .beta-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--color-dark);
+    }
+    .beta-btn:active:not(:disabled) {
+      transform: translate(0, 0);
+      box-shadow: none;
+    }
+    .beta-btn:focus-visible {
+      outline: 2px solid var(--color-red);
+      outline-offset: 3px;
+    }
+    .beta-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .beta-btn--solid {
+      background: var(--color-dark);
+      color: var(--color-sulphur);
+    }
+
+    /* ---------- review summary ---------- */
+    .beta-summary {
+      @apply flex flex-col;
+    }
+    .beta-summary > div {
+      @apply flex items-center justify-between gap-6 py-4;
+      border-top: 2px solid var(--color-dark);
+    }
+    .beta-summary > div:last-child {
+      border-bottom: 2px solid var(--color-dark);
+    }
+    .beta-summary dt {
+      @apply font-mono text-xs font-bold uppercase tracking-widest;
+      color: color-mix(in srgb, var(--color-dark) 60%, transparent);
+    }
+    .beta-summary dd {
+      @apply font-quick text-lg font-medium text-dark;
+      overflow-wrap: anywhere;
+      text-align: right;
+    }
+
+    /* ---------- flag picker ---------- */
+    .flag-picker {
+      @apply flex flex-col bg-transparent;
+      border: 2px solid var(--color-dark);
+      box-shadow: 4px 4px 0 var(--color-dark);
+    }
+
+    .flag-search {
+      @apply h-12 w-full rounded-none bg-transparent font-quick text-lg text-dark;
+      border: 0;
+      border-bottom: 2px solid var(--color-dark);
+      box-shadow: none;
+      padding: 0 1rem;
+    }
+    .flag-search::placeholder {
+      color: color-mix(in srgb, var(--color-dark) 40%, transparent);
+    }
+    .flag-search:focus-visible {
+      outline: none;
+      box-shadow: none;
+      background: color-mix(in srgb, var(--color-dark) 6%, transparent);
+    }
+
+    .flag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+      gap: 0.5rem;
+      max-height: 15rem;
+      overflow-y: auto;
+      padding: 0.75rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-dark) transparent;
+    }
+
+    .flag-btn {
+      @apply flex cursor-pointer flex-col items-center gap-2 bg-transparent p-2 text-dark;
+      border: 2px solid color-mix(in srgb, var(--color-dark) 20%, transparent);
+      border-radius: 0;
+      transition:
+        border-color 0.12s ease,
+        background-color 0.12s ease,
+        color 0.12s ease,
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+    }
+    .flag-btn:hover {
+      border-color: var(--color-dark);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--color-dark);
+    }
+    .flag-btn:focus-visible {
+      outline: 2px solid var(--color-red);
+      outline-offset: 2px;
+    }
+    .flag-btn[aria-pressed="true"] {
+      background: var(--color-dark);
+      color: var(--color-sulphur);
+      border-color: var(--color-dark);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .flag-img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      border-radius: 0;
+      outline: 1px solid color-mix(in srgb, var(--color-dark) 25%, transparent);
+    }
+
+    .flag-name {
+      @apply font-mono text-[0.65rem] font-bold uppercase leading-tight tracking-wider;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .flag-empty {
+      @apply font-mono text-sm uppercase tracking-widest;
+      grid-column: 1 / -1;
+      padding: 2rem 0;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .flag-chosen {
+      @apply mt-4 flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-widest text-dark;
+    }
+    .flag-chosen-img {
+      width: 2rem;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      border-radius: 0;
+      outline: 1px solid color-mix(in srgb, var(--color-dark) 25%, transparent);
+    }
+
+    @media (max-width: 640px) {
+      .flag-grid {
+        grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+        max-height: 13rem;
+      }
+      .beta-btn {
+        @apply px-6;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .beta-progress-fill,
+      .beta-btn,
+      .flag-btn {
+        transition: none;
+      }
+    }
+  }
+  /* =====================================================================
+     SLIDE PAIR (About -> BetaForm, right to left)
+     ===================================================================== */
+  .slide-pair {
+    @apply w-full;
+    overflow-x: clip;
+
+    .slide-pin {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide-track {
+      display: flex;
+      height: 100%;
+    }
+
+    /* ltr: first child sits at the far right, slides in from the left */
+    &.slide-ltr .slide-track {
+      flex-direction: row-reverse;
+    }
+
+    .slide-panel {
+      flex: 0 0 100vw;
+      width: 100vw;
+      height: 100%;
+      /* a panel taller than the screen (the open form) scrolls inside itself */
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-dark) var(--color-sulphur);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide-pin {
+        height: auto;
+        overflow: visible;
+      }
+      .slide-track,
+      &.slide-ltr .slide-track {
+        flex-direction: column;
+        width: 100% !important;
+      }
+      .slide-panel {
+        flex: none;
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+  /* =====================================================================
+   LOAD  (paste inside @layer components, next to #hero / #goal / #tech)
+   ===================================================================== */
+  #load {
+    @apply fixed inset-0 z-[100] flex-center bg-sulphur text-dark;
+
+    .load-stage {
+      @apply flex flex-col items-center gap-10 px-6 md:flex-row md:gap-16;
+    }
+
+    /* both drawings start hidden; GSAP reveals them (no flash before the intro) */
+    svg {
+      visibility: hidden;
+      overflow: visible;
+      display: block;
+    }
+    .load-word {
+      width: min(86vw, 640px);
+    }
+    .load-africa {
+      width: min(52vw, 38vh, 340px);
+    }
+
+    /* ---------- "ndimi" strokes + dots ---------- */
+    .ltr {
+      fill: none;
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .ltr.ink {
+      stroke: var(--color-dark);
+    }
+    .ltr.red {
+      stroke: var(--color-red);
+    }
+    .dot.ink {
+      fill: var(--color-dark);
+    }
+    .dot.red {
+      fill: var(--color-red);
+    }
+
+    /* ---------- Africa: dark body, red offset shadow ---------- */
+    .map {
+      stroke-width: 3;
+      stroke-linejoin: round;
+    }
+    .map.ink {
+      fill: var(--color-dark);
+      stroke: var(--color-dark);
+    }
+    .map.red {
+      fill: var(--color-red);
+      stroke: var(--color-red);
+    }
+
+    /* Kenya marker with a pulsing ring */
+    .kenya {
+      fill: var(--color-yellow);
+    }
+    .kenya-ring {
+      fill: none;
+      stroke: var(--color-yellow);
+      stroke-width: 2;
+    }
+
+    /* ---------- progress bar (same brutalist language as the beta form) ---------- */
+    .load-progress {
+      @apply absolute bottom-12 left-1/2 -translate-x-1/2;
+      width: min(60vw, 320px);
+      height: 0.75rem;
+      border: 2px solid var(--color-dark);
+      box-shadow: 4px 4px 0 var(--color-dark);
+    }
+    .load-progress-fill {
+      position: relative;
+      width: 0;
+      height: 100%;
+      background: var(--color-dark);
+    }
+    /* red leading edge, like .beta-progress-fill */
+    .load-progress-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 0.5rem;
+      background: var(--color-red);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      svg {
+        visibility: visible;
+      }
+    }
+  }
+
+  /* =====================================================================
+     FOOTER
+     ===================================================================== */
+  #footer {
+    @apply relative z-10 w-full bg-dark px-5 pb-8 pt-6 text-sulphur;
+
+    /* the bouncy edge: dark shape sitting on top of the footer.
+       overflow visible so the elastic overshoot can spring above it */
+    .footer-wave {
+      position: absolute;
+      left: 0;
+      bottom: calc(100% - 1px);
+      width: 100%;
+      height: clamp(80px, 12vw, 180px);
+      display: block;
+      overflow: visible;
+      pointer-events: none;
+      fill: var(--color-dark);
+    }
+
+    .footer-inner {
+      @apply container mx-auto flex flex-col gap-12;
+    }
+
+    .footer-top {
+      @apply flex flex-col items-center justify-between gap-8 md:flex-row;
+    }
+
+    .footer-brand {
+      @apply flex flex-col items-center gap-3 md:items-start;
+
+      img {
+        @apply h-24 w-auto;
+      }
+    }
+
+    .footer-copy {
+      @apply font-quick text-xs font-bold;
+      color: color-mix(in srgb, var(--color-sulphur) 70%, transparent);
+    }
+
+    .footer-socials {
+      @apply flex items-center gap-5;
+
+      a {
+        transition: transform 0.15s ease;
+      }
+      a:hover {
+        transform: translateY(-4px);
+      }
+      a:focus-visible {
+        outline: 3px solid var(--color-red);
+        outline-offset: 4px;
+      }
+    }
+
+    .footer-cols {
+      @apply grid grid-cols-2 gap-10 text-left md:grid-cols-4;
+    }
+
+    h4 {
+      @apply mb-4 font-bungee text-lg uppercase tracking-wide text-red;
+    }
+
+    ul {
+      @apply flex list-none flex-col gap-2 p-0;
+    }
+
+    li a {
+      @apply font-quick text-base font-bold text-sulphur;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 4px;
+      transition:
+        text-decoration-color 0.15s ease,
+        color 0.15s ease;
+    }
+    li a:hover,
+    li a:focus-visible {
+      color: var(--color-red);
+      text-decoration-color: var(--color-red);
+    }
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Geist Variable", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
